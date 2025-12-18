@@ -1,0 +1,15 @@
+module.exports = {
+  BaseError: require("./base.error"),
+  NotFoundError: require("./notfound.error"),
+  BadRequestError: require("./badrequest.error"),
+  UnauthorizedError: require("./unauthorized.error"),
+  ForbiddenError: require("./forbidden.error"),
+  ConflictError: require("./conflict.error"),
+  ValidationError: require("./validation.error"),
+  InternalServerError: require("./internalServer.error"),
+  NotImplementedError: require("./notimplemented.error"),
+  ServiceUnavailableError: require("./serviceUnavailable.error"),
+  ProblemLockedError: require("./problemLocked.error"),
+  InvalidVoteError: require("./invalidVote.error"),
+  DependencyFailedError: require("./dependencyFailed.error"),
+};
