@@ -32,12 +32,18 @@ async function  addProblem (req, res,next) {
 }
 
 
-function getProblem(req, res, next) {
+async function getProblem(req, res, next) {
   try {
-    throw new NotImplementedError("getProblem");
-  } catch (error) {
-    console.error(error);
-    next;
+ const problems = await problemService.getAllProblems();  
+return res.status(StatusCodes.OK).json({
+  success: true,
+  message: "Successfully fetched all problems",
+  error: {},
+  data: problems, // Tarka: [data] ⇔ [Problem Array] ↔ [Returned Resource]
+});
+
+} catch (error) {
+
     next(error);
   }
 }

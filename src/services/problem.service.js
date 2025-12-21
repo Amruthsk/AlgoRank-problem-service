@@ -30,9 +30,20 @@ class ProblemService {
         }
     }
 
+    async getAllProblems() {
+      try {
+         const problems = await this.problemRepository.getAllProblems();
+         return problems;
+      }  catch (error) {
+        console.log("Error in Problem Service (getAllProblems):", error);
+        throw new InternalServerError({ message: 'Failed to fetch problems from database', originalError: error.message });
+      }
+  }
+}
 
 
-    }
+
+  
 
 
 module.exports = ProblemService;
