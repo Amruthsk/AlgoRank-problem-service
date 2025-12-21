@@ -27,13 +27,5 @@ app.listen(PORT, async() => {
   await connectToDb();
   console.log("Successfully connected to db");
 
-  //dummy code for testing
-  const kittySchema = new mongoose.Schema({
-    name: String,
-  });
-  const Kitten = mongoose.model("Kitten", kittySchema);
 
-  const silence = new Kitten({ name: "Silence" });
-  await silence.save();
-  console.log(silence.name); // 'Silence'
 });
