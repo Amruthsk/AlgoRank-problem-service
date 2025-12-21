@@ -13,42 +13,55 @@ function pingProblemController(req, res) {
   return res.status(StatusCodes.OK).json({ message: "Ping controller is up" });
 }
 
-async function  addProblem (req, res,next) {
-   try {
+async function addProblemController(req, res, next) {
+  try {
     console.log("Incoming req body", req.body);
     const newProblem = await problemService.createProblem(req.body);
-      return res.status(StatusCodes.CREATED).json({
-            success: true, 
-            message: 'Successfully created a new problem',
-            error: {},
-            data: newProblem
-        });
-
-
-
-    } catch (error) {
-        next(error); //to errorhandling middleware
-    }
+    return res.status(StatusCodes.CREATED).json({
+      success: true,
+      message: "Successfully created a new problem",
+      error: {},
+      data: newProblem,
+    });
+  } catch (error) {
+    next(error); //to errorhandling middleware
+  }
 }
 
 
-async function getProblem(req, res, next) {
+async function getAllProblemController(req, res, next) {
   try {
- const problems = await problemService.getAllProblems();  
-return res.status(StatusCodes.OK).json({
-  success: true,
-  message: "Successfully fetched all problems",
-  error: {},
-  data: problems, // Tarka: [data] ⇔ [Problem Array] ↔ [Returned Resource]
-});
-
-} catch (error) {
-
+    const problems = await problemService.getAllProblems();
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully fetched all problems",
+      error: {},
+      data: problems, // [Problem Array] ↔ [Returned Resource]
+    });
+  } catch (error) {
     next(error);
   }
 }
 
-function deleteProblem(req, res, next) {
+
+async function getProblemByIdController(req, res, next) {
+  try {
+    const problemId = req.params.id;
+    const problem = await problemService.getProblemById(problemId);
+
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully fetched the problems",
+      error: {},
+      data: problem, //[Problem document] ↔ [Returned Resource]
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+function deleteProblemController(req, res, next) {
   try {
     throw new NotImplementedError("deleteProblem");
   } catch (error) {
@@ -58,7 +71,7 @@ function deleteProblem(req, res, next) {
   }
 }
 
-function updateProblem(req, res, next) {
+function updateProblemController(req, res, next) {
   try {
     throw new NotImplementedError("updateProblem");
   } catch (error) {
@@ -70,8 +83,9 @@ function updateProblem(req, res, next) {
 
 module.exports = {
   pingProblemController,
-  addProblem,
-  getProblem,
-  deleteProblem,
-  updateProblem,
+  addProblemController,
+  getAllProblemController,
+  getProblemByIdController,
+  deleteProblemController,
+  updateProblemController,
 };

@@ -8,16 +8,16 @@ const problemRouter = express.Router();
 
 problemRouter.get("/ping", ProblemController.pingProblemController);
 
-problemRouter.get("/:id", ProblemController.getProblem);
+problemRouter.get("/:id", ProblemController.getProblemByIdController);
 
-problemRouter.get("/", ProblemController.getProblem);
+problemRouter.get("/", ProblemController.getAllProblemController);
 
-problemRouter.post("/", ProblemController.addProblem);
+problemRouter.post("/", ProblemController.addProblemController);
 
 
-problemRouter.delete("/:id", ProblemController.deleteProblem);
+problemRouter.delete("/:id", ProblemController.deleteProblemController);
 
-problemRouter.put("/:id", ProblemController.updateProblem);
+problemRouter.put("/:id", ProblemController.updateProblemController);
 
 
 module.exports = problemRouter;
