@@ -5,6 +5,8 @@ const app = express();
 //Mounting api router
 const apiRouter = require("./routes");
 const errorHandler = require("./utils/errorHandler");
+const connectToDb = require("./config/db.config");
+const mongoose = require("mongoose");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
@@ -20,6 +22,10 @@ app.get ('/ping', (req, res) => {
 
 app.use(errorHandler);  
 
-app.listen(PORT, () => {
-    console.log(`Server started at port: ${PORT}`);
+app.listen(PORT, async() => {
+  console.log(`Server started at port: ${PORT}`);
+  await connectToDb();
+  console.log("Successfully connected to db");
+
+
 });
