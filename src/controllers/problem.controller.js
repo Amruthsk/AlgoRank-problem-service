@@ -78,12 +78,22 @@ async function deleteProblemController(req, res, next) {
   }
 }
 
-function updateProblemController(req, res, next) {
+async function updateProblemController(req, res, next) {
   try {
-    throw new NotImplementedError("updateProblem");
+    const problemId = req.params.id;
+    const updateData = req.body;
+     const updatedProblem = await problemService.updateProblem(
+       problemId,
+       updateData
+     );
+     return res.status(StatusCodes.OK).json({
+       success: true,
+       message: "Successfully updated the problem",
+       error: {},
+       data: updatedProblem, // Tarka: [data] ⇔ [Updated Document] ↔ [Confirmation]
+     });
+
   } catch (error) {
-    console.error(error);
-    next;
     next(error);
   }
 }

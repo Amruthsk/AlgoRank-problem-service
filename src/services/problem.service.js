@@ -92,6 +92,58 @@ class ProblemService {
       });
     }
   }
+
+
+ async updateProblem(problemId, updateData) {
+      try {
+          if (updateData.description) updateData.description = markdownSanitizer(updateData.description);
+          if (updateData.editorial) updateData.editorial = markdownSanitizer(updateData.editorial);
+          const updatedProblem = await this.problemRepository.updateProblem(problemId, updateData);
+
+          if (!updatedProblem) {
+             throw new NotFoundError("Problem", { id: problemId });
+          }
+
+           return updatedProblem;
+
+      }
+      catch(error){
+        console.log("Error in Problem Service (updateProblem):", error);
+        if (error.name === "ValidationError") {
+          throw new BadRequestError("Problem", {
+            originalError: error.message,
+          });
+        }
+        if (error instanceof NotFoundError) throw error;
+
+        if (error.name === "CastError") {
+          throw new BadRequestError("Problem ID/Field", {
+            invalidId: problemId,
+            originalError: error.message,
+          });
+        }
+          throw new InternalServerError({
+            message: "Failed to update problem in database",
+            originalError: error.message,
+          });
+
+      }
+
+
+
+
+ }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 module.exports = ProblemService;

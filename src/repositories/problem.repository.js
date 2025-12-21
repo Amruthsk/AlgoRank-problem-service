@@ -41,13 +41,24 @@ class ProblemRepository {
     try {
       const response = await Problem.findByIdAndDelete(id); 
       return response;
-      
+
     } catch (error) {
       throw error;
     }
 
   }
-  async updateProblem(id, data) {}
+  async updateProblem(id, data) {
+    try {
+       const problem = await Problem.findByIdAndUpdate(id, data, {
+         new: true,
+         runValidators: true }
+        );
+         return problem;
+    } catch (error) {
+      throw error;
+    }
+
+  }
 }
 
 module.exports = ProblemRepository;
