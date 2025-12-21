@@ -5,6 +5,7 @@ const {
   NotFoundError,
 } = require("../errors");
 const { markdownSanitizer } = require("../utils");
+const { StatusCodes } = require("http-status-codes"); 
 
 class ProblemService {
   constructor(problemRepository) {
@@ -65,6 +66,28 @@ class ProblemService {
       }
       throw new InternalServerError({
         message: "Failed to fetch problems from database",
+        originalError: error.message,
+      });
+    }
+  }
+
+  async deleteProblem(problemId) {
+    try {
+      const deletedProblem = await this.problemRepository.deleteProblem(
+        problemId
+      );
+      if (!deletedProblem) {
+        throw new NotFoundError("Problem", { id: problemId });
+      }
+      return deletedProblem;
+    } catch (error) {
+      console.log("Error in Problem Service (deleteProblem):", error);
+      if (error.statusCode === StatusCodes.NOT_FOUND) throw error;
+      if (error.name === "CastError") {
+        throw new BadRequestError("Problem ID", { invalidId: problemId });
+      }
+      throw new InternalServerError({
+        message: "Failed to delete problem from database",
         originalError: error.message,
       });
     }

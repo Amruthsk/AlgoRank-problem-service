@@ -61,12 +61,19 @@ async function getProblemByIdController(req, res, next) {
 }
 
 
-function deleteProblemController(req, res, next) {
+async function deleteProblemController(req, res, next) {
   try {
-    throw new NotImplementedError("deleteProblem");
+    const problemId = req.params.id;
+    const deletedProblem = await problemService.deleteProblem(problemId);
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully deleted the problem",
+      error: {},
+      data: deletedProblem, //   [Deleted Document] ↔ [Confirmation]
+    });
+
   } catch (error) {
-    console.error(error);
-    next;
+
     next(error);
   }
 }

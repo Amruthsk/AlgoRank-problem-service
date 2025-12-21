@@ -37,7 +37,16 @@ class ProblemRepository {
   }
 
 
-  async deleteProblem(id) {}
+  async deleteProblem(id) {
+    try {
+      const response = await Problem.findByIdAndDelete(id); 
+      return response;
+      
+    } catch (error) {
+      throw error;
+    }
+
+  }
   async updateProblem(id, data) {}
 }
 
