@@ -1,4 +1,5 @@
 const { Problem } = require("../models");
+const logger = require("../config/logger.config");
 
 class ProblemRepository {
   async createProblem(problemData) {
