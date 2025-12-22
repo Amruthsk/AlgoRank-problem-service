@@ -1,7 +1,16 @@
 const BaseError = require("../errors/base.error");
 const { StatusCodes } = require("http-status-codes");
+const logger = require("../config/logger.config");
 
 function errorHandler(err, req, res, next) {
+  logger.error(`Error in request: ${err.message}`, {
+    path: req.path,
+    method: req.method,
+    stack: err.stack,
+    name: err.name,
+    details: err.details || (err.errors ? err.errors : {}),
+  }); 
+  
   if (err instanceof BaseError) {
     return res.status(err.statusCode).json({
       success: false, 
